@@ -19,25 +19,25 @@ if(all === 0){
 }
 else
   return(
-    <div>
-      <StatisticLine text = 'Good' value = {props.good}/>
-      <StatisticLine text = 'Neutral' value = {props.neutral}/>
-      <StatisticLine text = 'Bad' value = {props.bad}/>
-      <StatisticLine text = 'All' value = {all}/>
-      <StatisticLine text = 'Average' value = {average}/>
-      <StatisticLine text = 'Positives' value = {positive} mark = '%'/>
-    </div>
+    <table>
+      <tbody>
+        <StatisticLine text = 'Good' value = {props.good}/>
+        <StatisticLine text = 'Neutral' value = {props.neutral}/>
+        <StatisticLine text = 'Bad' value = {props.bad}/>
+        <StatisticLine text = 'All' value = {all}/>
+        <StatisticLine text = 'Average' value = {average}/>
+        <StatisticLine text = 'Positives' value = {positive} mark = '%'/>
+      </tbody>
+    </table>
   )
 }
 
 const StatisticLine = (props) => {
   return(
-      <tbody>
         <tr>
           <td>{props.text}</td>
           <td>{props.value}{props.mark}</td>
         </tr>
-      </tbody>
   )
 }
 
@@ -52,7 +52,6 @@ const App = () => {
   const [bad, setBad] = useState(0)
   
   return (
-    <body>
     <div>
      <Header text = 'Give feedback.'/>
      <Button handleClick={() => setGood(good + 1)} text = 'Good'/>
@@ -60,8 +59,7 @@ const App = () => {
      <Button handleClick={() => setBad(bad +1)} text = 'Bad'/>
      <Header text ='statistics'/>
      <Statistics good = {good} neutral = {neutral} bad = {bad}/>
-    </div>
-    </body>
+     </div> 
   )
 }
 
