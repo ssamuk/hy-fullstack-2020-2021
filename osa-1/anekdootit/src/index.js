@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+/*import { render } from '@testing-library/react'*/
 
 
 
@@ -21,39 +22,34 @@ const Anecdote = (props) => (
 )
 
 const Points = (props) =>(
-  <p>{props.text} {props.points} {props.text2}</p>
+  <p>has {props.points} points.</p>
 )
-
-
-
-
-
 
 const App = (props) => {
   const [selected, setSelected] = useState(0)
-  var points = new Uint8Array(6); 
+  const [points, setPoints] = useState([0,0,0,0,0,0])
   
+
+  const addPoints = () => {
+    setPoints(points => {
+      points[selected]++
+      console.log(points)
+      return points
+    })
+  }
+
   const handleClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
-
-  const addPoints = (points) => {
-      points[selected] += 1
-      return points
-  }
-
-
   return (
     <div>    
       <Anecdote text = {props.anecdotes[selected]}/>
-      <Button handleClick={() => addPoints(points) } text = 'Vote'/>
+      <Button handleClick={() => addPoints()} text = 'Vote'/>
       <Button handleClick ={() => handleClick()} text = 'Next anecdote'/>
-      <Points text = 'has ' points = {points[selected]} text2 = ' points'/>
+      <Points points = {points[selected]}/>
     </div>
   )
 }
-
-
 
 ReactDOM.render(
   <App anecdotes={anecdotes} />,
