@@ -14,6 +14,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
 
+
   const addNew = (event) => {
     event.preventDefault()
     const newObject = {
@@ -51,7 +52,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter/>
+      <Filter />
       <div><h2>Add new</h2></div>
       
       <PersonForm addNew = {addNew} newName = {newName} newNumber = {newNumber}
