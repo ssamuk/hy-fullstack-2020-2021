@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-/*import { render } from '@testing-library/react'*/
-
-
 
 const anecdotes = [
   'If it hurts, do it more often',
@@ -25,28 +22,42 @@ const Points = (props) =>(
   <p>has {props.points} points.</p>
 )
 
-const App = (props) => {
+
+const App = () => {
   const [selected, setSelected] = useState(0)
-  const [points, setPoints] = useState([0,0,0,0,0,0])
+  const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
   
 
+  const bestAnecdote = () => {
+    const max = points.reduce((prev, current) =>
+      (prev > current) ? prev : current)
+      console.log(max)
+      console.log(points.indexOf(max))
+      return anecdotes[points.indexOf(max)]
+    
+      
+  }
+
+
   const addPoints = () => {
-    setPoints(points => {
-      points[selected]++
-      console.log(points)
-      return points
-    })
+    const newPoints = [...points]
+    newPoints[selected]++
+    setPoints(newPoints)
   }
 
   const handleClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length))
   }
+
   return (
-    <div>    
-      <Anecdote text = {props.anecdotes[selected]}/>
-      <Button handleClick={() => addPoints()} text = 'Vote'/>
-      <Button handleClick ={() => handleClick()} text = 'Next anecdote'/>
+    <div>
+      <h1>Anecdote of the day</h1>    
+      <Anecdote text = {anecdotes[selected]}/>
       <Points points = {points[selected]}/>
+      <Button handleClick={addPoints} text = 'Vote'/>
+      <Button handleClick ={() => handleClick()} text = 'Next anecdote'/>
+      <h1>Anecdote with most votes</h1>
+      <Anecdote text = {bestAnecdote()}/>
     </div>
   )
 }
