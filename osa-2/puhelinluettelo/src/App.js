@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PersonForm from '../src/components/PersonForm'
 import Persons from '../src/components/Persons'
 import Filter from '../src/components/Filter'
-import axios from 'axios'
+import personService from '../src/services/persons'
 
 
 const App = () => {
@@ -12,13 +12,10 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log("promise fulfilled")
-        setPersons(response.data)
-      })
+    personService.getAll()
+    .then(Persons => {
+      setPersons(Persons)
+    })
   }, [])
 
 
@@ -40,12 +37,10 @@ const App = () => {
       }
     }
     if(n === true){
-      //setPersons(persons.concat(newObject))
-      axios
-        .post('http://localhost:3001/Persons', newObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
-        })
+      personService.create(newObject)
+      .then(Persons => {
+        setPersons(persons.concat(Persons))
+      })
         setNewName('')
         setNewNumber('')
     }
@@ -65,6 +60,13 @@ const App = () => {
     setNewNumber(event.target.value)
   }
   
+  const remove = id => {
+    personService
+    .remove(id)
+    .then(Persons => {
+      setPersons(persons)
+    })
+  }
   
   return (
     <div>

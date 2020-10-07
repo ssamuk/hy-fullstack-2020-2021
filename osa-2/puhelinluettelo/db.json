@@ -1,29 +1,61 @@
 {
   "persons": [
-    {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Samu",
-      "number": "0400",
-      "id": 5
-    }
-  ]
+    
+      {
+        "name": "Arto Hellas",
+        "number": "040-123456",
+        "id": 1
+      },
+      {
+        "name": "Ada Lovelace",
+        "number": "39-44-5323523",
+        "id": 2
+      },
+      {
+        "name": "Dan Abramov",
+        "number": "12-43-234345",
+        "id": 3
+      },
+      {
+        "name": "Mary Poppendieck",
+        "number": "39-23-6423122",
+        "id": 4
+      },
+      {
+        "name": "Samu",
+        "number": "0400",
+        "id": 5
+      },
+      {
+        "name": "Samu Kaijansinkko",
+        "number": "0400 726909",
+        "id": 6
+      },
+      {
+        "name": "Anni Luukas ",
+        "number": "050 123 123",
+        "id": 7
+      },
+      {
+        "name": "Testi Aarne",
+        "number": "123 123",
+        "id": 8
+      },
+      {
+        "name": "Toinen testi ",
+        "number": "321321",
+        "id": 9
+      },
+      {
+        "name": "Alligaattori",
+        "number": "4565",
+        "id": 10
+      },
+      {
+        "name": "Testi Jaska",
+        "number": "123123",
+        "id": 11
+      }
+    ]
+  
 }
