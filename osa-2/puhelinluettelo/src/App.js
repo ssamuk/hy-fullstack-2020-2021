@@ -6,6 +6,7 @@ import axios from 'axios'
 
 
 const App = () => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
@@ -19,6 +20,11 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
+
+
+  const searchTermChange = event => {
+    setSearchTerm(event.target.value)
+  }
 
 
   const addNew = (event) => {
@@ -58,7 +64,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter />
+      <Filter
+      value={searchTerm}
+      onChange={searchTermChange}/>
       <div><h2>Add new</h2></div>
       <PersonForm 
       addNew = {addNew} 
@@ -68,7 +76,7 @@ const App = () => {
       handleNumberChange = {handleNumberChange} 
       />
       <h2>Numbers</h2>
-      <Persons persons = {persons}/>
+      <Persons persons = {persons.filter(person => person.name.match(new RegExp(searchTerm, 'i')))}/>
     </div>
   )
 
