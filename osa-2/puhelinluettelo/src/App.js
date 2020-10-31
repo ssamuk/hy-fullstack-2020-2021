@@ -59,13 +59,18 @@ const App = () => {
     console.log(event.target.value)
     setNewNumber(event.target.value)
   }
-  
-  const remove = id => {
-    personService
-    .remove(id)
-    .then(Persons => {
-      setPersons(persons)
-    })
+
+  const handleRemove = (id) => {
+    const toBeDeleted = persons.filter(person => person.id === id)
+    if(toBeDeleted.length === 1 || toBeDeleted.length === 2){
+      if (window.confirm("Do you really want to delete he/she")){
+      personService
+      .remove(id)
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+    }
+  }
   }
   
   return (
@@ -83,7 +88,10 @@ const App = () => {
       handleNumberChange = {handleNumberChange} 
       />
       <h2>Numbers</h2>
-      <Persons persons = {persons.filter(person => person.name.match(new RegExp(searchTerm, 'i')))}/>
+      <Persons
+      persons = {persons.filter(person => person.name.match(new RegExp(searchTerm, 'i')))}
+      onRemove = {handleRemove}
+      />
     </div>
   )
 
