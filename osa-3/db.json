@@ -1,0 +1,19 @@
+{
+  "persons": [
+    {
+      "name": "Olli-Pekka",
+      "number": "123 123 123",
+      "id": 1
+    },
+    {
+      "name": "Samu Kaijansinkko",
+      "number": "0400 726909",
+      "id": 2
+    },
+    {
+      "name": "samu",
+      "number": "",
+      "id": 3
+    }
+  ]
+}
