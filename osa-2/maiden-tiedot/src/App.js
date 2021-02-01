@@ -36,7 +36,7 @@ const App = () => {
 
   
   const handleSearchTermChange = (event) => {
-    console.log(event.target.value)
+   // console.log(event.target.value)
     setSearchTerm(event.target.value)
   }
 
