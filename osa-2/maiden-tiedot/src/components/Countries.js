@@ -18,14 +18,33 @@ const Countries = ({searchTerm, countries}) => {
     else if (filteredLength < 10 && filteredLength > 1) {
     return(
         <div>
-            <ul>{filteredCountries.map(c =><li>{c.name}</li>)}</ul>
+            <ul>
+                {filteredCountries.map(c =>
+                <li>
+                {c.name}   
+                </li>)}
+            </ul>
         </div>
     )
     }
     else {
         return(
-            <h2>{filteredCountries.map(c =><ul>{c.name}</ul>)}</h2>
-            
+            <div>
+                {filteredCountries.map(c =>
+                <div>
+                    <h2>{c.name}</h2>
+                    <p>Capital: {c.capital}</p>
+                    <p>Population: {c.population}</p>
+                    <b>Languages</b>
+                    <ul>
+                           {c.languages.map(lang =>
+                            <li>
+                                {lang.name}
+                            </li>)}
+                    </ul>
+                    <img src={c.flag} width="300"></img>
+                </div>)}
+            </div>  
         )   
 }
 }
