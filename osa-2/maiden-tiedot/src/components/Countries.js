@@ -1,6 +1,7 @@
 import React from 'react'
+import Country from './Country'
 
-const Countries = ({searchTerm, countries}) => {
+const Countries = ({searchTerm, countries, country}) => {
     console.log(searchTerm);
 
     const filteredCountries = countries.filter(country =>
@@ -29,22 +30,7 @@ const Countries = ({searchTerm, countries}) => {
     }
     else {
         return(
-            <div>
-                {filteredCountries.map(c =>
-                <div>
-                    <h2>{c.name}</h2>
-                    <p>Capital: {c.capital}</p>
-                    <p>Population: {c.population}</p>
-                    <b>Languages</b>
-                    <ul>
-                           {c.languages.map(lang =>
-                            <li>
-                                {lang.name}
-                            </li>)}
-                    </ul>
-                    <img src={c.flag} width="300"></img>
-                </div>)}
-            </div>  
+           <Country country={filteredCountries}/>  
         )   
 }
 }

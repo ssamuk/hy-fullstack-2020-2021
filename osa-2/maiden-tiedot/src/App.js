@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios'
 import Countries from './components/Countries'
+import Country from './components/Country'
+
 
 // Other components
 
