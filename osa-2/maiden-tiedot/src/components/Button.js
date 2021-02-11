@@ -2,15 +2,6 @@ import React from 'react'
 import Country from './Country'
 
 
-const showDetails = (parameter) => {
-    console.log('Im at function', parameter);
-    return (
-        <div>
-            <Country country={parameter}/>
-        </div>
-    )
-}
-
 const Button = ({text, country}) => {
 
     const showDetails = () => {
@@ -19,13 +10,15 @@ const Button = ({text, country}) => {
         arr.push(country)
         console.log('arr', arr);
         return (
+            <div>
                 <Country country={arr}/>
+            </div>
         )
     }
 
     return(
         <button
-        onClick = {() => showDetails()}>
+            onClick = {() => showDetails()}>
             {text}
         </button>
     )
