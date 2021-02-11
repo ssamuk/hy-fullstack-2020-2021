@@ -1,9 +1,11 @@
 import React from 'react'
 
 const Country = ({country}) =>{
+    console.log('country component');
 
     return(
         <div>
+            <p>Testi</p>
                 {country.map(c =>
                 <div>
                     <h2>{c.name}</h2>
