@@ -56,6 +56,10 @@ const App = () => {
       personService.create(newObject)
       .then(Persons => {
         setPersons(persons.concat(Persons))
+        setNotification(`${newObject.name} added to phonebook`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
       })
         setNewName('')
         setNewNumber('')
