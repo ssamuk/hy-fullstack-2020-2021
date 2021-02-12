@@ -2,15 +2,17 @@ import React from 'react'
 import Country from './Country'
 import Button from './Button'
 
-const Countries = ({searchTerm, countries, country}) => {
-    console.log(searchTerm);
+const Countries = ({searchTerm, countries}) => {
 
-  
+    let state = false;
+    const handleClick = () => {
+        state = true;
+        console.log(state);
+    }
 
     const filteredCountries = countries.filter(country =>
         country.name.match(new RegExp(searchTerm, 'i')))
         console.log(filteredCountries);
-        console.log('Object length is: ', Object.keys(filteredCountries).length);
      
     const filteredLength = Object.keys(filteredCountries).length;
 
@@ -24,15 +26,17 @@ const Countries = ({searchTerm, countries, country}) => {
     )
     }
     else if (filteredLength < 10 && filteredLength > 1) {
+
     return(
         <div>
             <ul>
                 {filteredCountries.map(c =>
                 <li>
                 {c.name}
-                <Button 
-                text='show details'
-                country = {c}/>
+                <button onClick = {handleClick}>
+                    show details
+                </button>
+                {state ? <Country country={filteredCountries.map((c) => c)}/> : null}
                 </li>)}
                 
             </ul>

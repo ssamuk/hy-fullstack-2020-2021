@@ -6,16 +6,7 @@ import Countries from './components/Countries'
 import Country from './components/Country'
 
 
-// Other components
 
-/* const Filter = ({value, onChange}) => {
-  return(
-  <div>Filter shown with
-    <input>
-    </input>
-  </div>
-  )
-}*/
 
 // APP
 const App = () => {
