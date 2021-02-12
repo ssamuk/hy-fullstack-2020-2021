@@ -5,7 +5,7 @@ import Button from './Button'
 const Countries = ({searchTerm, countries, country}) => {
     console.log(searchTerm);
 
-   
+  
 
     const filteredCountries = countries.filter(country =>
         country.name.match(new RegExp(searchTerm, 'i')))
@@ -29,7 +29,7 @@ const Countries = ({searchTerm, countries, country}) => {
             <ul>
                 {filteredCountries.map(c =>
                 <li>
-                {c.name}  
+                {c.name}
                 <Button 
                 text='show details'
                 country = {c}/>
