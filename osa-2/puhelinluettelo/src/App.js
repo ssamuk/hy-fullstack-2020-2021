@@ -63,6 +63,10 @@ const App = () => {
       })
         setNewName('')
         setNewNumber('')
+        .catch(error => {
+          setNotification(error.response.data)
+          console.log('new line at error', error.response.data)
+        })
     }
     else{
       setNotification(`ALERT! '${newObject.name}' is allready in phonebook`)
@@ -72,14 +76,15 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     }
+    
   }
   
   const handleNameChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setNewName(event.target.value)
   }
   const handleNumberChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setNewNumber(event.target.value)
   }
 
