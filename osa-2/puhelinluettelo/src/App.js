@@ -42,41 +42,62 @@ const App = () => {
 
   const addNew = (event) => {
     event.preventDefault()
-    const newObject = {
+    
+      const newObject = {
       name: newName,
       number: newNumber
     }
+
     let n = true;
+
+    /* 
     for (let i = 0; i < persons.length; i++) {
       if(persons[i].name === newObject.name){
         n = false
       }
+    }  
+    */
+    // Finally found way to do it without for loop (y)
+    // Leaving for loop above for self educational reasons
+    if (persons.some(person => person.name === newObject.name)){
+      n = false;
     }
     if(n === true){
       personService.create(newObject)
       .then(Persons => {
         setPersons(persons.concat(Persons))
         setNotification(`${newObject.name} added to phonebook`)
-      setTimeout(() => {
+        setTimeout(() => {
         setNotification(null)
       }, 5000)
       })
         setNewName('')
         setNewNumber('')
-        .catch(error => {
+        /* .catch(error => {
           setNotification(error.response.data)
           console.log('new line at error', error.response.data)
-        })
+        }) */
     }
     else{
-      setNotification(`ALERT! '${newObject.name}' is allready in phonebook`)
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
-      setNewName('')
-      setNewNumber('')
-    }
-    
+      const person = persons.find(person => person.name === newObject.name)
+      console.log(person);
+      console.log(newNumber)
+      const id = person.id
+      const updatedPerson = {
+        ...person,
+        number: newNumber
+      }
+      personService.update(id, updatedPerson)
+      .then(response => {
+        setPersons(persons.map(person => person.id === id ? response : person))
+        setNotification(`ALERT! '${person.name}' number updated`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+        setNewName('')
+        setNewNumber('')
+      })
+    } 
   }
   
   const handleNameChange = (event) => {
