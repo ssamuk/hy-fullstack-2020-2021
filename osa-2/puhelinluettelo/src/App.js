@@ -71,13 +71,12 @@ const App = () => {
         setNotification(null)
       }, 5000)
       })
+      
         setNewName('')
         setNewNumber('')
-        /* .catch(error => {
-          setNotification(error.response.data)
-          console.log('new line at error', error.response.data)
-        }) */
+        
     }
+    
     else{
       const person = persons.find(person => person.name === newObject.name)
       console.log(person);
@@ -97,7 +96,21 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      /*
+      Not sure how to get this to work, gonna let it be for now
+
+      
+      .catch(error => {
+        console.log(error.response)
+        setNotification(error.response)
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
+        console.log('new line at error', error.response)
+      })
+      */
     } 
+    
   }
   
   const handleNameChange = (event) => {
