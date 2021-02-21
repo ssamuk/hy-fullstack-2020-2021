@@ -1,4 +1,4 @@
-const app = require('./app.js')
+const app = require('./app.js') // Express sovellus
 const http = require('http')
 const config = require('./utils/config')
 const logger = require('./utils/logger')
@@ -8,5 +8,5 @@ const server = http.createServer(app)
 
 
 server.listen(config.PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${config.PORT}`)
 })
