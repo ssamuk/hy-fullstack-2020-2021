@@ -1,4 +1,5 @@
 const { TestScheduler } = require('@jest/core')
+const { values } = require('lodash')
 const _ = require('lodash')
 
 const dummy = () => {
@@ -25,12 +26,18 @@ const favouriteBlog = (blogs) => {
     likes: liked.likes
   }
 }
-const mostBlogs = (blogs) => {
+const mostBlogs = (blogs) => {  
   let authors = _.countBy(blogs, 'author')
   const vals = Object.values(authors)
+  const author = Object.keys(authors)
   let max = Math.max(...vals)
-  console.log('Max is: ', max)
+  console.log('Authors are: ', authors, 'and max number is ', max)
+  const result = authors.filter(author => author.values == max)
+  console.log(result)
+  return result
+
 }
+
 
 module.exports = {
   dummy,
