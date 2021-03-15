@@ -194,7 +194,7 @@ describe('4.4 exercise, using reduce.', () => {
       }  
     ]
   
-    const result = listHelper.mostBlog(blogs)
+    const result = listHelper.mostBlogs(blogs)
     expect(result).toEqual({
       author: 'Rober t C. Martin',
       blogs: 3
