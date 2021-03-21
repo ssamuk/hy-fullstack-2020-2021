@@ -64,7 +64,6 @@ test('Able to post new blog and lenght goes ++', async () => {
   expect(response2.body.length === x+1)
 })
 test ('Likes test', async () => {
-  const response = await api.get('/api/blogs')
 
   const newBlog = {
     'title': 'Otsikko',
