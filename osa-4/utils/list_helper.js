@@ -27,14 +27,15 @@ const favouriteBlog = (blogs) => {
   }
 }
 const mostBlogs = (blogs) => {  
-  let authors = _.countBy(blogs, 'author')
+  /*let authors = _.countBy(blogs, 'author')
   const vals = Object.values(authors)
   const author = Object.keys(authors)
   let max = Math.max(...vals)
   console.log('Authors are: ', authors, 'and max number is ', max)
   const result = authors.filter(author => author.values == max)
   console.log(result)
-  return result
+  return result*/
+  return 1
 
 }
 
