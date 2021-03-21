@@ -46,6 +46,24 @@ test('Id is id, not _id', async () => {
   const response = await api.get('/api/blogs')
   expect(response.body[0].id).toBeDefined()
 })
+test('Able to post new blog and lenght goes ++', async () => {
+  const response = await api.get('/api/blogs')
+  const x = response.body.length
+
+  const newBlog = {
+    'title': 'Otsikko',
+    'author': 'Samu ',
+    'url': 'www.google.fi',
+    'likes': 65
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+  const response2 = await api.get('/api/blogs')
+  console.log(response2.body)
+  expect(response.body.length === x+1)
+})
 
 
 afterAll(() => {
