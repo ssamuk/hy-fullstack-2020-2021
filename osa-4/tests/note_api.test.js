@@ -42,6 +42,10 @@ test('the first note is about HTTP methods', async () => {
 
   expect(response.body[0].title).toBe('Otsikko')
 })
+test('Id is id, not _id', async () => {
+  const response = await api.get('/api/blogs')
+  expect(response.body[0].id).toBeDefined()
+})
 
 
 afterAll(() => {
