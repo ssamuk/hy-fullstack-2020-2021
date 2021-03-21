@@ -61,8 +61,24 @@ test('Able to post new blog and lenght goes ++', async () => {
     .send(newBlog)
     .expect(200)
   const response2 = await api.get('/api/blogs')
-  console.log(response2.body)
-  expect(response.body.length === x+1)
+  expect(response2.body.length === x+1)
+})
+test ('Likes test', async () => {
+  const response = await api.get('/api/blogs')
+  console.log(response.body)
+
+  const newBlog = {
+    'title': 'Otsikko',
+    'author': 'Samu ',
+    'url': 'www.google.fi'
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+  const response2 = await api.get('/api/blogs')
+  console.log(response2.body[response2.body.length-1])
+  expect(response2.body[response2.body.length-1].likes).toBe(0)
 })
 
 
