@@ -11,13 +11,11 @@ const helper = require('./test_helper')
 describe('When there is initially some blogs saved', () => {
   beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(helper.initialBlogs[0])
-    await blogObject.save()
-    blogObject = new Blog(helper.initialBlogs[1])
-    await blogObject.save()
+    await Blog.insertMany(helper.initialBlogs)
   })
 
   test('Blogs are returned as json', async () => {
+    console.log('entered tests')
     await api
       .get('/api/blogs')
       .expect(200)
