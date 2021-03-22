@@ -17,27 +17,30 @@ const initialBlogs = [
     'likes': 65
   }
 ]
-beforeEach(async () => {
-  await Note.deleteMany({})
-  let noteObject = new Note(initialBlogs[0])
-  await noteObject.save()
-  noteObject = new Note(initialBlogs[1])
-  await noteObject.save()
+// Example of describe
+describe('When there is initially some blogs saved', () => {
+  beforeEach(async () => {
+    await Note.deleteMany({})
+    let noteObject = new Note(initialBlogs[0])
+    await noteObject.save()
+    noteObject = new Note(initialBlogs[1])
+    await noteObject.save()
+  })
+
+  test('Blogs are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  })
+  test('there are two blogs', async () => {
+    const response = await api.get('/api/blogs')
+
+    expect(response.body).toHaveLength(2)
+  })
 })
 
-test('notes are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
-test('there are two notes', async () => {
-  const response = await api.get('/api/blogs')
-
-  expect(response.body).toHaveLength(2)
-})
-
-test('the first note is about HTTP methods', async () => {
+test('the first blog is about HTTP methods', async () => {
   const response = await api.get('/api/blogs')
 
   expect(response.body[0].title).toBe('Otsikko')
@@ -86,6 +89,15 @@ test ('Not enought info works?', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+test ('Delete post', async () => {
+  const response = await api.get('/api/blogs')
+  await api
+  // Note using ` not '...
+    .delete(`/api/blogs/${response.body[0].id}`)
+    .expect(204)
+  const response2 = await api.get('/api/blogs')
+  expect(response2.body.length).toBe(response.body.length-1)
 })
 
 
