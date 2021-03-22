@@ -2,29 +2,19 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
-const Note = require('../models/blog')
-const initialBlogs = [
-  {
-    'title': 'Otsikko',
-    'author': 'Samu ',
-    'url': 'www.google.fi',
-    'likes': 65
-  },
-  {
-    'title': 'Otsikko',
-    'author': 'Samu ',
-    'url': 'www.google.fi',
-    'likes': 65
-  }
-]
+const Blog = require('../models/blog')
+const helper = require('./test_helper')
+
+
+
 // Example of describe
 describe('When there is initially some blogs saved', () => {
   beforeEach(async () => {
-    await Note.deleteMany({})
-    let noteObject = new Note(initialBlogs[0])
-    await noteObject.save()
-    noteObject = new Note(initialBlogs[1])
-    await noteObject.save()
+    await Blog.deleteMany({})
+    let blogObject = new Blog(helper.initialBlogs[0])
+    await blogObject.save()
+    blogObject = new Blog(helper.initialBlogs[1])
+    await blogObject.save()
   })
 
   test('Blogs are returned as json', async () => {
@@ -39,7 +29,11 @@ describe('When there is initially some blogs saved', () => {
     expect(response.body).toHaveLength(2)
   })
 })
+test('all blogs are returned', async () => {
+  const response = await api.get('/api/blogs')
 
+  expect(response.body).toHaveLength(helper.initialBlogs.length)
+})
 test('the first blog is about HTTP methods', async () => {
   const response = await api.get('/api/blogs')
 
@@ -50,9 +44,6 @@ test('Id is id, not _id', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 test('Able to post new blog and lenght goes ++', async () => {
-  const response = await api.get('/api/blogs')
-  const x = response.body.length
-
   const newBlog = {
     'title': 'Otsikko',
     'author': 'Samu ',
@@ -63,8 +54,15 @@ test('Able to post new blog and lenght goes ++', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(200)
-  const response2 = await api.get('/api/blogs')
-  expect(response2.body.length === x+1)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+  
+  const title = blogsAtEnd.map(n => n.title)
+  expect(title).toContain(
+    'Otsikko'
+  )
 })
 test ('Likes test', async () => {
 
@@ -99,8 +97,6 @@ test ('Delete post', async () => {
   const response2 = await api.get('/api/blogs')
   expect(response2.body.length).toBe(response.body.length-1)
 })
-
-
 afterAll(() => {
   mongoose.connection.close()
 })
