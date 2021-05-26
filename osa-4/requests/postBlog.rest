@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNzYW11ayIsImlkIjoiNjBhOGY4YjA3YTk2YzMyODM0ZjA0NjUzIiwiaWF0IjoxNjIyMDU0MjIzfQ.VtG8QOQpsUVgdQlpNKc3Mw2uzGcjVBzGgqggoVXcl68
+
+{
+    "likes": 67,
+    "title": "Otsikko",
+    "author": "ssamuk",
+    "url": "www.google.fi"
+}
