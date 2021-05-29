@@ -4,6 +4,14 @@ const User = require('../models/user')
 
 const jwt = require('jsonwebtoken')
 
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -23,7 +31,8 @@ blogsRouter.get('/:id', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const token = request.token
+  // const token = request.token
+  const token = getTokenFrom(request)
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
@@ -45,7 +54,15 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  const decodedToken = jwt.verify(request.token, process.nextTick.SECRET)
+  if (!blog){
+    return response.status(404).end()
+  }
+  if (blog.user.toString() !== decodedToken.id.toString()){
+    return response.status(401).json({error: 'You are not allowed to delete this blog.'})
+  }
+  await Blog.findByIdAndDelete(request.params.id)
   response.status(204).end()
 })
 
