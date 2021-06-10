@@ -13,6 +13,15 @@ const App = () => {
 
   return (
     <div>
+      <form>
+        <label>Username:</label>
+        <input></input>
+        <br/>
+        <label>Password:</label>
+        <input></input>
+        <br/>
+        <button type="submit">Login</button>
+      </form>
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
