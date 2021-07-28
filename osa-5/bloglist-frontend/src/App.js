@@ -8,7 +8,7 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [newMessage, setNewMessage] = useState('')
   const [title, setTitle] = useState('') 
   const [author, setAuthor] = useState('') 
   const [url, setUrl] = useState('') 
@@ -27,6 +27,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const notifyUser = (message) => {
+  setNewMessage(message)
+  setTimeout(() => {
+    setNewMessage('')
+  }, 5000)
+  }
 
   const handleLogout = async (event) => {
     try {
@@ -52,10 +59,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      notifyUser('Wrong credentials')
     }
   }
 
@@ -85,19 +89,25 @@ const App = () => {
   )
 
   const addBlog = async (event) => {
-
+    event.preventDefault()
+    try{
     const newObject = {
       title: title,
-      author: author,
+      author: author, 
       url: url
     }
-    console.log(newObject)
     await blogService.create(newObject)
-    await setBlogs(blogs.concat(blogs))
+    await setBlogs(blogs.concat(newObject))
+    await notifyUser(title + ' added to list!')
     setTitle('')
     setUrl('')
     setAuthor('')
+    }catch(exception){
+    notifyUser('Something went wrong!')
+    }
   }
+  
+  
 
   
   const blogForm = () => (
@@ -148,7 +158,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>{errorMessage}</h1>
+      <h1>{newMessage}</h1>
       {user === null ?
       loginForm() : blogForm()}
     </div>
