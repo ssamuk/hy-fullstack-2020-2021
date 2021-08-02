@@ -13,11 +13,13 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [newMessage, setNewMessage] = useState('')
 
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect( async () => {
+    const blogs = await blogService.getAll()
+    blogs.sort((a, b) => b.likes - a.likes)
       setBlogs( blogs )
-    )  
-  }, [])
+  })
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
