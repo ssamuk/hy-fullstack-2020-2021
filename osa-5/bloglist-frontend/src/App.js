@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import React, { useState, useEffect, useRef } from 'react'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
+import BlogsList from './components/BlogsList'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -9,9 +12,6 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
   const [newMessage, setNewMessage] = useState('')
-  const [title, setTitle] = useState('') 
-  const [author, setAuthor] = useState('') 
-  const [url, setUrl] = useState('') 
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -27,6 +27,8 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const blogFormRef = useRef()
 
   const notifyUser = (message) => {
   setNewMessage(message)
@@ -63,104 +65,57 @@ const App = () => {
     }
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
-      <div>
-        username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>      
-  )
 
-  const addBlog = async (event) => {
-    event.preventDefault()
+
+  const addBlog = async (blog) => {
+    blogFormRef.current.toggleVisibility()
+
     try{
-    const newObject = {
-      title: title,
-      author: author, 
-      url: url
-    }
-    await blogService.create(newObject)
-    await setBlogs(blogs.concat(newObject))
-    await notifyUser(title + ' added to list!')
-    setTitle('')
-    setUrl('')
-    setAuthor('')
+      const newBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(newBlog))
+      notifyUser(blog.title + ' added to list!')
     }catch(exception){
     notifyUser('Something went wrong!')
     }
   }
   
   
-
+  const loginForm = () => (
+    <Togglable buttonLabel='Login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleSubmit={handleLogin}
+      />
+    </Togglable>
+  )
   
   const blogForm = () => (
     <div>
-     <div>
-    <h3>Post new</h3>
-      <form onSubmit={addBlog}>
-        <div>
-          Title
-          <input
-              type="text"
-              value={title}
-              name="Title"
-              id="title"
-              onChange={({ target }) => setTitle(target.value)}
-            />
-        </div>
-        <div>
-            Author
-            <input
-              type="text"
-              value={author}
-              name="Author"
-              id="author"
-              onChange={({ target }) => setAuthor(target.value)}
-            />
-        </div>
-        <div>
-            Url
-            <input
-              type="text"
-              value={url}
-              name="URL"
-              id="url"
-              onChange={({ target }) => setUrl(target.value)}
-            />
-        </div>
-        <button type="submit">post</button>
-      </form></div>
-    <p>{user.username} logged in <button type="submit" onClick={handleLogout}>Logout</button></p>
-    <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-  </div>
+      <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
+        <BlogForm
+        createBlog = {addBlog}
+        />
+      </Togglable>
+      <BlogsList 
+      blogs={blogs}
+      user={user}
+      handleLogout={handleLogout}/>
+     </div>
   )
+
   
 
   return (
     <div>
       <h1>{newMessage}</h1>
       {user === null ?
-      loginForm() : blogForm()}
+        loginForm()
+        : 
+        blogForm()
+      }
     </div>
   )
 }
