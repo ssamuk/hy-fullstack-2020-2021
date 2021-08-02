@@ -65,14 +65,43 @@ const App = () => {
     }
   }
 
+  const updateBlog = async (blog) => {
+    try{
+      console.log('We are here', blog)
+      const newLikes = blog.likes + 1
+      const id = blog.id
+      console.log(newLikes, id)
+    
+      const liked = {
+        ...blog,
+        likes: newLikes
+      }
+      console.log('liked = ', liked)
 
+
+
+      const updatedBlog = await blogService.update(id, liked)
+
+
+
+
+
+      console.log('We are rolling and saving things')
+      const newBlogs = blogs.map((blog) => blog.id === updatedBlog.id 
+      ? updatedBlog : blog)
+      setBlogs(newBlogs)
+    }
+    catch(exception){
+      notifyUser('Something went wrong :S')
+    }
+  }
 
   const addBlog = async (blog) => {
     blogFormRef.current.toggleVisibility()
 
     try{
       const newBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(newBlog))
+      await setBlogs(blogs.concat(newBlog))
       notifyUser(blog.title + ' added to list!')
     }catch(exception){
     notifyUser('Something went wrong!')
@@ -97,9 +126,11 @@ const App = () => {
       <Togglable buttonLabel="Add new blog" ref={blogFormRef}>
         <BlogForm
         createBlog = {addBlog}
+        updateBlog = {updateBlog}
         />
       </Togglable>
       <BlogsList 
+      updateBlog = {updateBlog}
       blogs={blogs}
       user={user}
       handleLogout={handleLogout}/>
